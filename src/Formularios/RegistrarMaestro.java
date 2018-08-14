@@ -5,18 +5,77 @@
  */
 package Formularios;
 
+import Clases.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author wer
  */
+
 public class RegistrarMaestro extends javax.swing.JFrame {
 
     /**
      * Creates new form RegistrarMaestro
      */
-    public RegistrarMaestro() {
+    
+    Connection conn=null;
+    ResultSet rs = null;
+    PreparedStatement pst=null;
+    
+    public RegistrarMaestro() throws ClassNotFoundException {
         initComponents();
+          conn=Conexion.ConnectDB();
+          this.UpdateTable();
+          this.Fillcombo();
     }
+    
+    
+    //Muestra la tabla con los datos de los maestros
+    
+    private void UpdateTable() {
+        String sql = "select * from maestro";
+        try{
+        pst= conn.prepareStatement(sql);
+        rs=pst.executeQuery();
+        this.jTableMaestros.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        
+        }
+        
+        
+    }
+    
+    
+    //Fillcombo de maestros
+    private void Fillcombo(){
+        try{
+            String sql="select * from maestro";
+            pst=conn.prepareStatement(sql);
+            rs=pst.executeQuery();
+            
+            while(rs.next()){
+                String name = rs.getString("nombreMaestro");
+                this.jComboBoxMaestro.addItem(name);
+                
+                
+            }
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,21 +86,192 @@ public class RegistrarMaestro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txt_NombreMaestro = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableMaestros = new javax.swing.JTable();
+        jComboBoxMaestro = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        txt_IDMaestro = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Nombre Maestro");
+
+        jButton1.setText("Registrar Maestro");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTableMaestros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableMaestros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMaestrosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableMaestros);
+
+        jComboBoxMaestro.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxMaestroPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+
+        jButton2.setText("Actualizar");
+
+        jButton3.setText("Eliminar");
+
+        jLabel2.setText("ID");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBoxMaestro, 0, 177, Short.MAX_VALUE)
+                                    .addComponent(txt_NombreMaestro))
+                                .addGap(44, 44, 44)
+                                .addComponent(jButton1))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_IDMaestro)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton3)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_NombreMaestro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxMaestro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txt_IDMaestro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql="Insert into maestro(nombreMaestro) values(?)";
+            pst=conn.prepareStatement(sql);
+            //pst.setString(1, null);
+            pst.setString(1, this.txt_NombreMaestro.getText());
+            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null, "Guardado Exitosamente");
+            this.UpdateTable();
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTableMaestrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMaestrosMouseClicked
+        // TODO add your handling code here:
+        try{
+            int row = this.jTableMaestros.getSelectedRow();
+            String Table_click=(this.jTableMaestros.getValueAt(row, 0).toString());
+            String sql ="select * from maestro where idMaestro='"+Table_click+"' ";
+            
+            pst=conn.prepareStatement(sql);
+            rs=pst.executeQuery();
+            
+            if(rs.next()){
+                String add1=rs.getString("idMaestro");
+                this.txt_IDMaestro.setText(add1);
+                String add2=rs.getString("nombreMaestro");
+                this.txt_NombreMaestro.setText(add2);
+                
+                               
+                
+            }
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }//GEN-LAST:event_jTableMaestrosMouseClicked
+
+    private void jComboBoxMaestroPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxMaestroPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        
+        String tmp = (String)jComboBoxMaestro.getSelectedItem();
+        String sql="select * from maestro where nombreMaestro=?";
+        
+        
+        try{
+        pst=conn.prepareStatement(sql);
+        pst.setString(1, tmp);
+        rs=pst.executeQuery();
+        
+        if(rs.next()){
+            String add1=rs.getString("idMaestro");
+            this.txt_IDMaestro.setText(add1);
+            String add2=rs.getString("nombreMaestro");
+            this.txt_NombreMaestro.setText(add2);
+            
+        }
+                
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }//GEN-LAST:event_jComboBoxMaestroPopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
@@ -69,15 +299,30 @@ public class RegistrarMaestro extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RegistrarMaestro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarMaestro().setVisible(true);
+                try {
+                    new RegistrarMaestro().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(RegistrarMaestro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBoxMaestro;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableMaestros;
+    private javax.swing.JTextField txt_IDMaestro;
+    private javax.swing.JTextField txt_NombreMaestro;
     // End of variables declaration//GEN-END:variables
 }
