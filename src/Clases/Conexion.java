@@ -28,9 +28,13 @@ public class Conexion {
           // Try to connect
         try {
              
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/colegio", "root", "");
+        //conn = DriverManager.getConnection("jdbc:mysql://localhost/colegio", "root", "");
+        
+        //Conexion wer
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/colegio", "root", "01234");
     
-        //  DriverManager.getConnection("jdbc:mysql://localhost/test?" +
+         //Conexion MySQl
+         // DriverManager.getConnection("jdbc:mysql://localhost/test?" +
         //                              "user=minty&password=greatsqldb");
 
          System.out.println("It works!");

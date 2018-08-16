@@ -6,6 +6,7 @@
 package Formularios;
 
 import Clases.Conexion;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,9 +98,15 @@ public class RegistrarMaestro extends javax.swing.JFrame {
         txt_IDMaestro = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nombre Maestro");
+
+        txt_NombreMaestro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_NombreMaestroKeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Registrar Maestro");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,8 +144,18 @@ public class RegistrarMaestro extends javax.swing.JFrame {
         });
 
         jButton2.setText("Actualizar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("ID");
 
@@ -189,11 +206,11 @@ public class RegistrarMaestro extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(txt_IDMaestro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(81, Short.MAX_VALUE))
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,7 +219,18 @@ public class RegistrarMaestro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
+        this.registrarMaestro();
+        this.limpiar();
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+   
+    
+    //Registra los maestros
+    private void registrarMaestro(){
+           try{
             String sql="Insert into maestro(nombreMaestro) values(?)";
             pst=conn.prepareStatement(sql);
             //pst.setString(1, null);
@@ -217,9 +245,17 @@ public class RegistrarMaestro extends javax.swing.JFrame {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
+    
+    
+    //limpia los cuadros de texto
+    
+    private void limpiar(){
+        this.txt_NombreMaestro.setText("");
+        this.txt_IDMaestro.setText("");
+    }
+    
+    
     private void jTableMaestrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMaestrosMouseClicked
         // TODO add your handling code here:
         try{
@@ -272,6 +308,57 @@ public class RegistrarMaestro extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jComboBoxMaestroPopupMenuWillBecomeInvisible
+
+    private void txt_NombreMaestroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_NombreMaestroKeyPressed
+        // TODO add your handling code here:
+         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+           this.registrarMaestro();
+           this.limpiar();
+         }
+    }//GEN-LAST:event_txt_NombreMaestroKeyPressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        String sql="delete from maestro where idMaestro=?";
+        try{
+            
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, this.txt_IDMaestro.getText());
+            
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Eliminado");
+            pst.close();
+            this.UpdateTable();
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+            
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String id = this.txt_IDMaestro.getText();
+            String nombre = this.txt_NombreMaestro.getText();
+            
+            
+            String sql = "update maestro set idMaestro='"+id+"',nombreMaestro='"+nombre+"' where idMaestro='"+id+"'";
+            pst=conn.prepareStatement(sql);
+            
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Datos Actualizados");
+            this.UpdateTable();
+            
+           
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
