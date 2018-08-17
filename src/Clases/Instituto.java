@@ -34,6 +34,8 @@ public class Instituto {
         // TODO code application logic here
         Inicio n = new Inicio();
         n.validarPrimerUso();
+        n.validadGrado();
+        n.validarSeccion();
         
     }
     
