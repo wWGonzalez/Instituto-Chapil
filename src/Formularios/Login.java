@@ -11,6 +11,7 @@ import Clases.SQL;
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -145,6 +146,11 @@ public class Login extends javax.swing.JFrame {
                 txtPassActionPerformed(evt);
             }
         });
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 270, 40));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 40)); // NOI18N
@@ -246,6 +252,14 @@ public class Login extends javax.swing.JFrame {
     private void txtPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPassMouseClicked
         txtPass.setText("");
     }//GEN-LAST:event_txtPassMouseClicked
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        // TODO add your handling code here:
+             if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+            login();
+        
+    }
+    }//GEN-LAST:event_txtPassKeyPressed
 
     /**
      * @param args the command line arguments
