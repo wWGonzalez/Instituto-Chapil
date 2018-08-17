@@ -111,14 +111,17 @@ public class RegistrarCurso extends javax.swing.JFrame {
         
         //Muestra los cursos en la tabla jTable
            private void UpdateTableCurso() {
-        String sql = "select * from curso";
-        try{
+        String sql = "select idCurso as ID, nombreCurso as CURSO, nombreMaestro as MAESTRO,nombreGrado as GRADO, nombreSeccionl as SECCION from curso as c inner join maestro as m \n" +
+            "on m.idMaestro=c.Maestro_idMaestro inner join grado\n" +
+            "on idGrado=c.Grado_idGrado inner join seccion\n" +
+            "on idSeccion=c.Seccion_idSeccion";
+    try{
         pst= conn.prepareStatement(sql);
         rs=pst.executeQuery();
         this.jTableCursos.setModel(DbUtils.resultSetToTableModel(rs));
         
         
-        }catch(Exception e){
+    }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         
         }
@@ -292,16 +295,20 @@ public class RegistrarCurso extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+                        .addGap(39, 39, 39))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
